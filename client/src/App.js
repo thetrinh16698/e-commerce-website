@@ -8,7 +8,7 @@ import './App.css';
 import HomePage from './pages/homepage/homepage.cpn';
 import ShopPage from './pages/shop/shop.cpn';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.cpn';
-import CheckoutPage from './pages/checkout/checkout.cpn';
+import CheckoutPage from './pages/checkout/checkout.cpn.jsx';
 
 import Header from './components/header/header.cpn';
 
