@@ -6,14 +6,17 @@ import { createStructuredSelector } from "reselect";
 import { GlobalStyle } from "./global.style";
 
 import Header from "./components/header/header.cpn";
-import Spinner from './components/spinner/spinner.cpn';
+import Spinner from "./components/spinner/spinner.cpn";
+import ErrorBoundary from "./components/error-boundary/error-boundary.cpn";
 
 import { selectCurrentUser } from "./redux/user/user.selector";
 import { checkUserSession } from "./redux/user/user.action";
 
 const HomePage = lazy(() => import("./pages/homepage/homepage.cpn"));
 const ShopPage = lazy(() => import("./pages/shop/shop.cpn"));
-const SignInAndSignUpPage = lazy(() => import("./pages/sign-in-and-sign-up/sign-in-and-sign-up.cpn"));
+const SignInAndSignUpPage = lazy(() =>
+  import("./pages/sign-in-and-sign-up/sign-in-and-sign-up.cpn")
+);
 const CheckoutPage = lazy(() => import("./pages/checkout/checkout.cpn.jsx"));
 
 const App = ({ checkUserSession, currentUser }) => {
@@ -26,18 +29,20 @@ const App = ({ checkUserSession, currentUser }) => {
       <GlobalStyle />
       <Header />
       <Switch>
-        <Suspense fallback={<Spinner />}>
-          <Route exact path="/" component={HomePage} />
-          <Route path="/shop" component={ShopPage} />
-          <Route exact path="/checkout" component={CheckoutPage} />
-          <Route
-            exact
-            path="/signin"
-            render={() =>
-              currentUser ? <Redirect to="/" /> : <SignInAndSignUpPage />
-            }
-          />
-        </Suspense>
+        <ErrorBoundary>
+          <Suspense fallback={<Spinner />}>
+            <Route exact path="/" component={HomePage} />
+            <Route path="/shop" component={ShopPage} />
+            <Route exact path="/checkout" component={CheckoutPage} />
+            <Route
+              exact
+              path="/signin"
+              render={() =>
+                currentUser ? <Redirect to="/" /> : <SignInAndSignUpPage />
+              }
+            />
+          </Suspense>
+        </ErrorBoundary>
       </Switch>
     </div>
   );
